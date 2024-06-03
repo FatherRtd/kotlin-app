@@ -1,12 +1,12 @@
 package com.example.newapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var multiplyButton: Button
     private lateinit var divideButton: Button
     private lateinit var resultText: TextView
+    private lateinit var operationSign: TextView
+    private lateinit var equalSign: TextView
+    private lateinit var closeButton: Button
 
     private var operation: String = ""
     private var result: Double? = null
@@ -32,11 +35,16 @@ class MainActivity : AppCompatActivity() {
         multiplyButton = findViewById(R.id.multiplyButton)
         divideButton = findViewById(R.id.divideButton)
         resultText = findViewById(R.id.resultText)
+        operationSign = findViewById(R.id.operationSign)
+        equalSign = findViewById(R.id.equalSign)
+        closeButton = findViewById(R.id.closeButton)
 
         addButton.setOnClickListener { calculate("+") }
         subtractButton.setOnClickListener { calculate("-") }
         multiplyButton.setOnClickListener { calculate("*") }
         divideButton.setOnClickListener { calculate("/") }
+
+        closeButton.setOnClickListener { finish() }
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -71,13 +79,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayResult() {
         result?.let {
-            resultText.text = "${number1.text} $operation ${number2.text} = $it"
+            operationSign.text = operation
+            equalSign.text = "="
+            resultText.text = it.toString()
         }
     }
 
     private fun clearResult() {
-        operation = ""
-        result = null
+        operationSign.text = ""
+        equalSign.text = ""
         resultText.text = ""
     }
 }
